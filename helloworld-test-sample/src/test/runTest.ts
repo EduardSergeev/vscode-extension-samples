@@ -1,6 +1,6 @@
 import * as path from 'path';
 
-import { runTests } from 'vscode-test';
+import { downloadAndUnzipVSCode, resolveCliPathFromVSCodeExecutablePath, runTests } from 'vscode-test';
 
 async function main() {
 	try {
@@ -12,8 +12,24 @@ async function main() {
 		// Passed to --extensionTestsPath
 		const extensionTestsPath = path.resolve(__dirname, './suite/index');
 
+		const vscodeExecutablePath = await downloadAndUnzipVSCode('1.48.0');
+
+		const cliPath = resolveCliPathFromVSCodeExecutablePath(vscodeExecutablePath);
+		
+		const extensionsDir = path.resolve(path.dirname(cliPath), '..', 'extensions');
+
 		// Download VS Code, unzip it and run the integration test
-		await runTests({ extensionDevelopmentPath, extensionTestsPath });
+		await runTests({
+			vscodeExecutablePath,
+			extensionDevelopmentPath,
+			extensionTestsPath,
+      launchArgs: [
+        '--new-window',
+        '--disable-updates',
+        '--extensions-dir', extensionsDir,
+        '--disable-restore-windows',
+        '--disable-telemetry',
+      ]});
 	} catch (err) {
 		console.error('Failed to run tests');
 		process.exit(1);
