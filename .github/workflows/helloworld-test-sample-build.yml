@@ -1,0 +1,34 @@
+name: Build
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: ['ubuntu-latest', 'windows-latest', 'macos-latest']
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: ./helloworld-test-sample
+    env:
+        CODE_VERSION: ''
+        DISPLAY: ':99.0'
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 8.x
+
+    - name: Build project
+      run: npm install && npm run compile
+
+    - name: Run tests with coverage
+      uses: GabrielBB/xvfb-action@v1.4
+      with:
+        working-directory: ./helloworld-test-sample
+        run: npm run coverage
