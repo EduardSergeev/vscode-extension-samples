@@ -7,15 +7,22 @@ on:
 jobs:
   build:
     strategy:
+      fail-fast: false
       matrix:
-        os: ['ubuntu-latest', 'windows-latest', 'macos-latest']
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+        env:
+          - { CODE_VERSION: 1.48.0, DISPLAY: ':99.0' }
+          - { CODE_VERSION: 1.49.0, DISPLAY: ':99.0' }
+          - { CODE_VERSION: insiders, DISPLAY: ':99.0' }
     runs-on: ${{ matrix.os }}
+    env: ${{ matrix.env }}
     defaults:
       run:
         working-directory: ./helloworld-test-sample
-    env:
-        CODE_VERSION: ''
-        DISPLAY: ':99.0'
+        
     steps:
     - uses: actions/checkout@v2
 

@@ -1,4 +1,5 @@
 import * as path from 'path';
+import { env } from 'process';
 
 import { downloadAndUnzipVSCode, resolveCliPathFromVSCodeExecutablePath, runTests } from 'vscode-test';
 
@@ -11,11 +12,9 @@ async function main() {
 		// The path to the extension test script
 		// Passed to --extensionTestsPath
 		const extensionTestsPath = path.resolve(__dirname, './suite/index');
-
-		const vscodeExecutablePath = await downloadAndUnzipVSCode('insiders');
-
+		const vscodeVersion = env['CODE_VERSION'];
+		const vscodeExecutablePath = await downloadAndUnzipVSCode(vscodeVersion);
 		const cliPath = resolveCliPathFromVSCodeExecutablePath(vscodeExecutablePath);
-		
 		const extensionsDir = path.resolve(path.dirname(cliPath), '..', 'extensions');
 
 		// Download VS Code, unzip it and run the integration test
