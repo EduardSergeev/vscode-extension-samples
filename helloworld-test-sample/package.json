@@ -50,7 +50,9 @@
 			"html",
 			"lcov"
 		],
-		"report-dir": "out/coverage"
+		"report-dir": "out/coverage",
+		"check-coverage": true,
+		"per-file": false
 	},
 	"devDependencies": {
 		"@istanbuljs/nyc-config-typescript": "^1.0.1",
