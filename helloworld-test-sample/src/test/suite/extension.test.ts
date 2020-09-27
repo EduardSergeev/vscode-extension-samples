@@ -12,7 +12,7 @@ suite('Extension Test Suite', () => {
 		await vscode.commands.executeCommand('extension.helloWorld');
 	});
 
-	test('Activate extension', async () => {
+	test('Try using git', async () => {
 		await vscode.commands.executeCommand('workbench.scm.focus');
 		await vscode.commands.executeCommand('git.showOutput');
 		await promisify(setTimeout)(5000);
