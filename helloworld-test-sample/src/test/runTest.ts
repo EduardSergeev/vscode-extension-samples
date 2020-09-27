@@ -24,7 +24,6 @@ async function main() {
 			extensionDevelopmentPath,
 			extensionTestsPath,
 			launchArgs: [
-				'--verbose',
 				'--new-window',
 				'--disable-extension', 'vscode.git',
 				'--disable-extension', 'vscode.github',
