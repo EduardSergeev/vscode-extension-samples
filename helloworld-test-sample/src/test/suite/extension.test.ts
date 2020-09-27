@@ -1,15 +1,20 @@
-import * as assert from 'assert';
-
+import { __promisify__ } from 'glob';
 // You can import and use all API from the 'vscode' module
 // as well as import your extension to test it
 import * as vscode from 'vscode';
-// import * as myExtension from '../../extension';
+import { promisify } from 'util';
+
 
 suite('Extension Test Suite', () => {
 	vscode.window.showInformationMessage('Start all tests.');
 
-	test('Sample test', () => {
-		assert.equal([1, 2, 3].indexOf(5), -1);
-		assert.equal([1, 2, 3].indexOf(0), -1);
+	test('Activate extension', async () => {
+		await vscode.commands.executeCommand('extension.helloWorld');
+	});
+
+	test('Activate extension', async () => {
+		await vscode.commands.executeCommand('workbench.scm.focus');
+		await vscode.commands.executeCommand('git.showOutput');
+		await promisify(setTimeout)(5000);
 	});
 });
