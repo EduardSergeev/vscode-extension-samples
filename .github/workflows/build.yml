@@ -1,0 +1,34 @@
+name: Build
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+        env:
+          - { CODE_VERSION: 1.49.2, DISPLAY: ':99.0' }
+          - { CODE_VERSION: insiders, DISPLAY: ':99.0' }
+    runs-on: ${{ matrix.os }}
+    env: ${{ matrix.env }}
+    defaults:
+      run:
+        working-directory: ./helloworld-test-sample
+        
+    steps:
+    - uses: actions/checkout@v2
+
+    - run: npm install
+
+    - name: Run tests
+      uses: GabrielBB/xvfb-action@v1.4
+      with:
+        working-directory: ./helloworld-test-sample
+        run: npm test
